@@ -1,0 +1,70 @@
+conplus读取配置项：
+系统管理->配置中心->应用配置->添加（名称，组，备注**按照例子进行配置）
+在Configs.java中引入定义的配置项。
+eg.定义常见问题
+1）配置中心配置
+  *名称：loan_common_problems
+  *组：loanweb,latteweb
+  *规则：["default : 1","o=a&i<30 : 2","o=i&i<10020 : 2"]
+  *状态: ENABLED
+  *备注：还呗常见问题
+  *问题定义：
+		  		{
+				  "common_problems": [
+				    {
+				      "name": "人脸识别失败怎么办？",
+				      "url": "huanbei://faqDetail?fid=46"
+				    },
+				    {
+				      "name": "必须使用自己的身份证吗？",
+				      "url": "huanbei://faqDetail?fid=53"
+				    },
+				    {
+				      "name": "为什么要绑定信用卡？",
+				      "url": "huanbei://faqDetail?fid=68"
+				    },
+				    {
+				      "name": "申请额度有费用吗？",
+				      "url": "huanbei://faqDetail?fid=93"
+				    },
+				    {
+				      "name": "如何提升还呗额度？",
+				      "url": "huanbei://faqDetail?fid=99"
+				    },
+				    {
+				      "name": "还款逾期会怎么样？",
+				      "url": "huanbei://faqDetail?fid=105"
+				    }
+				  ]
+				}
+ 2）读取配置项
+	@ConfElement(name = "loan_common_problems")
+	private Map<String, Object> commonProblems;
+
+	定义获取 commonProblems的方法
+	 public Map<String, Object> getCommonProblems() {
+        return commonProblems;
+    }
+
+ 3）应用
+	JSONArray commonProblems = (JSONArray) configs.getCommonProblems().get("common_problems");
+	request.setAttribute("commonProblems", CommonProblemVO.fromJSONArray(commonProblems, faqUrl));
+
+ 4)怎么在ftl里面应用
+	  <#list commonProblems as problem>
+			<div class="row">
+			  <div class="col-xs-12">
+			    <div data-href="${problem.url}" class="P1-link <#if problem?index == 0>first</#if>">${problem.name}</div>
+			  </div>
+			</div>
+  	</#list>
+
+
+
+
+
+
+
+
+
+
