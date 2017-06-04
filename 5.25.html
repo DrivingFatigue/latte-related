@@ -1,0 +1,12 @@
+reduce() 方法对累加器和数组中的每个元素 (从左到右)应用一个函数，将其减少为单个值。
+
+arr.reduce(callback,[initialValue]);
+
+accumulator:上一次调用回调返回的值，或者是提供的初始值（initialValue)
+currentValue:数组中正在处理的元素
+currentIndex:据中正在处理的元素索引，如果提供了 initialValue ，从0开始；否则从1开始
+array：调用 reduce 的数组
+
+[0,1,2,3,4].reduce(function(accumulator, currentValue, currentIndex, array){
+  return accumulator + currentValue;
+});
